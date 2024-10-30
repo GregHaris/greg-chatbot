@@ -11,7 +11,9 @@ export default function Home() {
           <span>Grëg&apos;s </span>ChatBot
         </div>
       </AppName>
-      <Main />
+      <div className="main-container">
+        <Main />
+      </div>
     </>
   );
 }
