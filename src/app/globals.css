@@ -82,7 +82,6 @@ button:hover {
 }
 
 .searchBar-container {
-  align-self: flex-end;
   width: 90%;
   border: 2px solid var(--foreground);
   border-radius: var(--border-radius);
