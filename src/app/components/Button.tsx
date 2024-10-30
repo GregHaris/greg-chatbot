@@ -1,5 +1,3 @@
-'use client'
-
 interface Props {
   textContent: string;
   handleClick: () => void;
