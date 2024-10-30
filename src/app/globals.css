@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --border-radius: 20px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,8 +15,121 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 14;
+  font-family: 'Montserrat', sans-serif, system-ui;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 2rem;
+  align-items: center;
+  line-height: 2;
+}
+
+.app-name {
+  padding: 1rem;
+  font-weight: 600;
+  display: flex;
+}
+
+.app-name div {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0 1rem;
+  border-radius: 1rem;
+}
+
+.app-name span {
+  font-family: cursive;
+  font-style: italic;
+  font-size: 1.5rem;
+}
+
+h1 {
+  font-size: 5rem;
+}
+
+h3 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+button {
+  border-radius: var(--border-radius);
+  border: none;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.search-input {
+  resize: none;
+  flex: 1;
+  background: transparent;
+  outline: none;
+  height: 20rem;
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
+  font-size: 1.5rem;
+}
+
+.searchBar-container {
+  align-self: flex-end;
+  width: 90%;
+  border: 2px solid var(--foreground);
+  border-radius: var(--border-radius);
+}
+
+.searchBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.searchBar button {
+  background-color: rgb(63, 128, 226);
+  color: white;
+  flex: 0;
+  height: 2.5em;
+  padding: 0 2em;
+}
+
+.searchBar button:disabled {
+  background-color: rgb(162, 192, 238);
+}
+
+.chat-container {
+  width: 50%;
+  margin-top: 3em;
+}
+
+.chatConversations {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-prompt {
+  align-self: flex-end;
+  margin: 1rem 0;
+  font-weight: 600;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+}
+
+.chat button {
+  background-color: rgb(205, 56, 56);
+  color: white;
+  padding: 0.5em 1.5em;
+  margin: 2rem 0;
 }
