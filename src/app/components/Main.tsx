@@ -5,6 +5,7 @@ import Groq from 'groq-sdk';
 import Headings from './Headings';
 import ReactMarkdown from 'react-markdown';
 import SearchBar from './SearchBar';
+// import { useChat } from 'ai/react';
 import { useState, useEffect } from 'react';
 
 const groq = new Groq({
@@ -36,17 +37,7 @@ const Main: React.FC = () => {
         isHeadersVisible: true,
       };
     }
-    try {
-      return JSON.parse(localValue);
-    } catch (error) {
-      console.error('Error parsing localStorage value:', error);
-      return {
-        inputValue: '',
-        chatMessages: [],
-        isChatVisible: false,
-        isHeadersVisible: true,
-      };
-    }
+    return JSON.parse(localValue);
   });
 
   // Save state to localStorage whenever it changes
