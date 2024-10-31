@@ -5,7 +5,6 @@ import Groq from 'groq-sdk';
 import Headings from './Headings';
 import ReactMarkdown from 'react-markdown';
 import SearchBar from './SearchBar';
-// import { useChat } from 'ai/react';
 import { useState, useEffect } from 'react';
 
 const groq = new Groq({
@@ -27,22 +26,28 @@ interface AppState {
 
 const Main: React.FC = () => {
   // Initialize state with an empty string
-  const [state, setState] = useState<AppState>(() => {
-    const localValue = localStorage.getItem('appState');
-    if (localValue === null) {
-      return {
-        inputValue: '',
-        chatMessages: [],
-        isChatVisible: false,
-        isHeadersVisible: true,
-      };
-    }
-    return JSON.parse(localValue);
+  const [state, setState] = useState<AppState>({
+    inputValue: '',
+    chatMessages: [],
+    isChatVisible: false,
+    isHeadersVisible: true,
   });
+
+  // Initialize state from localStorage on the client side
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const localValue = localStorage.getItem('appState');
+      if (localValue !== null) {
+        setState(JSON.parse(localValue));
+      }
+    }
+  }, []);
 
   // Save state to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('appState', JSON.stringify(state));
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('appState', JSON.stringify(state));
+    }
   }, [state]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -116,7 +121,9 @@ const Main: React.FC = () => {
     }));
 
     // Remove chat history from localStorage
-    localStorage.removeItem('appState');
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem('appState');
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
