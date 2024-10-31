@@ -89,6 +89,9 @@ const Main: React.FC = () => {
     handleSubmit(event); // Pass the event object to handleSubmit
   };
 
+  // Function to check if the input is empty
+  const isInputEmpty = (input: string) => input.trim() === '';
+
   return (
     <>
       {state.isHeadersVisible && (
@@ -135,7 +138,7 @@ const Main: React.FC = () => {
             textContent="Send"
             handleClick={handleButtonClick}
             // Pass the disabled state to the Button component
-            disabled={isLoading}
+            disabled={isLoading || isInputEmpty(input)}
           />
         </SearchBar>
       </div>
