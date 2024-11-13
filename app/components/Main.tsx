@@ -1,7 +1,7 @@
 'use client';
-import Chat from './Chat';
-import Button from './Button';
-import Headings from './Headings';
+import Chat from './ui/Chat';
+import Button from './ui/Button';
+import Headings from './ui/Headings';
 import ReactMarkdown from 'react-markdown';
 import SearchBar from './SearchBar';
 import { useChat } from 'ai/react';

@@ -1,5 +1,5 @@
 
-import AppName from './components/AppName';
+import AppName from './components/ui/AppName';
 import Main from './components/Main';
 
 
