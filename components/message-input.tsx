@@ -73,7 +73,7 @@ export default function MessageInput({ input, handleInputChange, handleSubmit, i
         </Button>
       </form>
       <div className="text-xs text-center mt-2 text-muted-foreground">
-        Greg's Chatbot can make mistakes. Consider checking important information.
+        Greg&apos;s Chatbot can make mistakes. Consider checking important information.
       </div>
     </div>
   )
