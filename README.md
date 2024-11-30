@@ -1,11 +1,11 @@
-# Greg's ChatBot
+# Greg's Chatbot
 
-*Converting my existing Chatbot app from React using VITE to Next.js and implementing Authentication using Auth0.*
+This is an AI-powered chatbot built with Next.js 15 and Turbopack.
 
-## Technologies
+## Getting Started
 
-- React
-- Next.js
-- TypeScript
-- Auth0
-- Groq Cloud AI Api
+First, install the dependencies:
+
+```bash
+pnpm install
+
