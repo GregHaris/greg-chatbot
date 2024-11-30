@@ -1,21 +1,8 @@
-
-import AppName from './components/ui/AppName';
-import Main from './components/Main';
-
+import Chat from '@/components/chat'
 
 export default function Home() {
   return (
-    <>
-      <AppName>
-        <div>
-          <span>Grëg&apos;s </span>ChatBot
-        </div>
-      </AppName>
-      <div className="main-container">
-        <Main />
-      </div>
-    </>
-  );
+    <Chat />
+  )
 }
-
 

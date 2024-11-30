@@ -1,23 +1,30 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { Analytics } from '@vercel/analytics/react'
+import { ThemeProvider } from '@/components/theme-provider'
 
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Greg's ChatBot",
-  description:
-    'Converting my existing Chatbot app from VITE React app to Next.js React app and implementing Authentication using Auth0.',
-};
+  title: "Greg's Chatbot",
+  description: 'An AI-powered chatbot using Next.js 15 and Turbopack',
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en">
-      <body>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider defaultTheme="light">
+          {children}
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
+
