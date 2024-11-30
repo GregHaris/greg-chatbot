@@ -16,9 +16,9 @@ export default function MessageInput({ input, handleInputChange, handleSubmit, i
 
   useEffect(() => {
     if (textareaRef.current) {
-      const textareaLineHeight = 24
+      const textareaLineHeight = 30
       const minRows = 1
-      const maxRows = 5
+      const maxRows = 13
 
       const previousRows = textareaRef.current.rows
       textareaRef.current.rows = minRows
@@ -51,11 +51,11 @@ export default function MessageInput({ input, handleInputChange, handleSubmit, i
         <Textarea
           ref={textareaRef}
           rows={rows}
-          placeholder="Message Greg's Chatbot..."
+          placeholder="Ask Greg"
           value={input}
           onChange={handleTextareaChange}
-          className="resize-none pr-12 py-3 rounded-full border-muted-foreground/20 bg-background focus-visible:ring-1 focus-visible:ring-offset-1"
-          style={{ maxHeight: '120px' }}
+          className="resize-none pr-12 py-3 rounded-lg border-muted-foreground/20 bg-background focus-visible:ring-1 focus-visible:ring-offset-1"
+          // style={{ height: '25px' }}
           disabled={isLoading}
         />
         <Button 
