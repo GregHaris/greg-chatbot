@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
 import { ArrowRight, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { useState, useRef, useEffect } from 'react';
 
 type MessageInputProps = {
   input: string;
@@ -49,8 +49,20 @@ export default function MessageInput({
     handleInputChange(e.target.value);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault(); // Prevent the default action (newline)
+      const form = event.currentTarget.form;
+      if (form) {
+        form.dispatchEvent(
+          new Event('submit', { cancelable: true, bubbles: true }),
+        );
+      }
+    }
+  };
+
   return (
-    <div className="p-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t">
+    <div className="p-4 mt-auto bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t">
       <form
         onSubmit={handleSubmit}
         className="relative max-w-4xl mx-auto flex items-center"
@@ -61,6 +73,7 @@ export default function MessageInput({
           placeholder="Ask Greg"
           value={input}
           onChange={handleTextareaChange}
+          onKeyDown={handleKeyDown}
           className="resize-none pr-12 py-3 min-h-[44px] rounded-2xl border-muted-foreground/20 bg-background focus-visible:ring-1 focus-visible:ring-offset-1"
           style={{ height: rows === 1 ? '44px' : 'auto' }}
           disabled={isLoading}
