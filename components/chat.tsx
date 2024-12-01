@@ -1,14 +1,16 @@
 'use client';
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, Trash2 } from 'lucide-react';
-import { Button } from './ui/button';
-import MessageInput from './message-input';
-import MessageList from './message-list';
-import { ThemeToggle } from './theme-toggle';
 import { useState, useEffect } from 'react';
 import { useChat } from 'ai/react';
+
+import MessageInput from './message-input';
+import MessageList from './message-list';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from './ui/button';
+import { ThemeToggle } from './theme-toggle';
 import { Welcome } from './welcome';
+
 
 export default function Chat() {
   const [localError, setLocalError] = useState<string | null>(null);
