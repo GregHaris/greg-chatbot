@@ -12,7 +12,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="absolute right-4 top-4"
+      className="absolute right-4 top-3.5"
     >
       {theme === 'light' ? (
         <Sun className="h-5 w-5" />
