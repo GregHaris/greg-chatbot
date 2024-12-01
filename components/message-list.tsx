@@ -1,10 +1,12 @@
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Message } from 'ai'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Message } from 'ai';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 type MessageListProps = {
-  messages: Message[]
-}
+  messages: Message[];
+};
 
 export default function MessageList({ messages }: MessageListProps) {
   return (
@@ -29,7 +31,9 @@ export default function MessageList({ messages }: MessageListProps) {
                   : 'bg-muted/50 text-foreground'
               }`}
             >
-              {message.content}
+              <Markdown remarkPlugins={[remarkGfm]}>
+                {message.content}
+              </Markdown>
             </div>
             {message.role === 'user' && (
               <Avatar className="ml-2">
@@ -40,6 +44,5 @@ export default function MessageList({ messages }: MessageListProps) {
         ))}
       </div>
     </ScrollArea>
-  )
+  );
 }
-
