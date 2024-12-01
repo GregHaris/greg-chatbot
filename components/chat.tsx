@@ -1,26 +1,42 @@
 'use client';
 
-import { useChat } from 'ai/react';
-import MessageList from './message-list';
-import MessageInput from './message-input';
-import { ThemeToggle } from './theme-toggle';
-import { useState } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
-
-// Define a custom type for the event object
-type InputChangeEvent = React.ChangeEvent<HTMLInputElement> & {
-  target: {
-    value: string;
-  };
-};
+import { AlertCircle, Trash2 } from 'lucide-react';
+import { Button } from './ui/button';
+import MessageInput from './message-input';
+import MessageList from './message-list';
+import { ThemeToggle } from './theme-toggle';
+import { useState, useEffect } from 'react';
+import { useChat } from 'ai/react';
+import { Welcome } from './welcome';
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
-    useChat();
   const [localError, setLocalError] = useState<string | null>(null);
 
-  const handleLocalSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // Initialize chat with stored messages or empty array
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    isLoading,
+    error,
+    setMessages,
+  } = useChat({
+    initialMessages:
+      typeof window !== 'undefined'
+        ? JSON.parse(localStorage.getItem('chatMessages') || '[]')
+        : [],
+  });
+
+  // Save messages to localStorage whenever they change
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem('chatMessages', JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  const handleLocalSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLocalError(null);
     try {
@@ -30,10 +46,24 @@ export default function Chat() {
     }
   };
 
+  const handleClearChat = () => {
+    localStorage.removeItem('chatMessages');
+    setMessages([]);
+  };
+
   return (
     <div className="flex flex-col h-screen bg-background">
       <header className="flex justify-between items-center p-4 border-b">
         <h1 className="text-2xl font-bold">Greg&apos;s Chatbot</h1>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleClearChat}
+          className="flex items-center mr-12"
+        >
+          <Trash2 className="h-4 w-4 mr-2" />
+          Clear Chat
+        </Button>
         <ThemeToggle />
       </header>
       <main className="flex-1 overflow-hidden flex flex-col">
@@ -46,12 +76,14 @@ export default function Chat() {
             </AlertDescription>
           </Alert>
         )}
-        <MessageList messages={messages} />
+        {messages.length === 0 ? (
+          <Welcome />
+        ) : (
+          <MessageList messages={messages} />
+        )}
         <MessageInput
           input={input}
-          handleInputChange={(value: string) =>
-            handleInputChange({ target: { value } } as InputChangeEvent)
-          }
+          handleInputChange={handleInputChange}
           handleSubmit={handleLocalSubmit}
           isLoading={isLoading}
         />
