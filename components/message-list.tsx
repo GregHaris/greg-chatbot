@@ -1,8 +1,7 @@
-import React from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { Message } from 'ai';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -42,7 +41,6 @@ export default function MessageList({ messages }: MessageListProps) {
                     const match = /language-(\w+)/.exec(className || '');
                     return match ? (
                       <SyntaxHighlighter
-                        {...props}
                         PreTag="div"
                         language={match[1]}
                         style={dark}
