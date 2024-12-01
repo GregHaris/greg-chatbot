@@ -19,7 +19,7 @@ export default function MessageList({ messages }: MessageListProps) {
           >
             {message.role === 'assistant' && (
               <Avatar className="mr-2">
-                <AvatarFallback>AI</AvatarFallback>
+                <AvatarFallback>Greg</AvatarFallback>
               </Avatar>
             )}
             <div
@@ -33,7 +33,7 @@ export default function MessageList({ messages }: MessageListProps) {
             </div>
             {message.role === 'user' && (
               <Avatar className="ml-2">
-                <AvatarFallback>U</AvatarFallback>
+                <AvatarFallback>You</AvatarFallback>
               </Avatar>
             )}
           </div>
