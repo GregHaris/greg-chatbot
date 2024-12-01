@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 
 type MessageInputProps = {
   input: string;
-  handleInputChange: (value: string) => void;
+  handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
 };
@@ -20,6 +20,10 @@ export default function MessageInput({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
+    adjustTextareaRows();
+  }, [input]);
+
+  const adjustTextareaRows = () => {
     if (textareaRef.current) {
       const textareaLineHeight = 24;
       const minRows = 1;
@@ -43,10 +47,6 @@ export default function MessageInput({
 
       setRows(currentRows < maxRows ? currentRows : maxRows);
     }
-  }, [input]);
-
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    handleInputChange(e.target.value);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -72,7 +72,7 @@ export default function MessageInput({
           rows={1}
           placeholder="Ask Greg"
           value={input}
-          onChange={handleTextareaChange}
+          onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           className="resize-none pr-12 py-3 min-h-[44px] rounded-2xl border-muted-foreground/20 bg-background focus-visible:ring-1 focus-visible:ring-offset-1"
           style={{ height: rows === 1 ? '44px' : 'auto' }}
