@@ -1,7 +1,8 @@
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Message } from 'ai';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { Message } from 'ai';
+
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 type MessageListProps = {
