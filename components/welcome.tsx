@@ -1,6 +1,6 @@
 const SAMPLE_QUESTIONS = [
   "What is Greg's Chatbot?",
-  'How can you help me?',
+  'What is the area of a  circle?',
   'Tell me about your capabilities',
   'What technologies do you use?',
 ];
