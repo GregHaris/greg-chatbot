@@ -1,5 +1,8 @@
+import React from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Message } from 'ai';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -32,7 +35,28 @@ export default function MessageList({ messages }: MessageListProps) {
                   : 'bg-muted/50 text-foreground'
               }`}
             >
-              <Markdown remarkPlugins={[remarkGfm]}>
+              <Markdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  code({ children, className, ...props }) {
+                    const match = /language-(\w+)/.exec(className || '');
+                    return match ? (
+                      <SyntaxHighlighter
+                        {...props}
+                        PreTag="div"
+                        language={match[1]}
+                        style={dark}
+                      >
+                        {String(children).replace(/\n$/, '')}
+                      </SyntaxHighlighter>
+                    ) : (
+                      <code {...props} className={className}>
+                        {children}
+                      </code>
+                    );
+                  },
+                }}
+              >
                 {message.content}
               </Markdown>
             </div>
