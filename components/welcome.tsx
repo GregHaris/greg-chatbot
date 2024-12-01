@@ -1,5 +1,3 @@
-import { Bot } from 'lucide-react';
-
 const SAMPLE_QUESTIONS = [
   "What is Greg's Chatbot?",
   'How can you help me?',
@@ -38,7 +36,6 @@ export function Welcome() {
   return (
     <div className="flex-1 flex flex-col items-center justify-center space-y-4 px-4">
       <div className="flex items-center justify-center space-x-2">
-        <Bot className="w-12 h-12" />
         <h1 className="text-4xl font-bold">Hi, I&apos;m Greg</h1>
       </div>
       <p className="text-xl text-muted-foreground">How can I help you today?</p>
