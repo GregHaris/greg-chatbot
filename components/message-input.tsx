@@ -51,7 +51,7 @@ export default function MessageInput({
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault(); // Prevent the default action (newline)
+      event.preventDefault();
       const form = event.currentTarget.form;
       if (form) {
         form.dispatchEvent(
