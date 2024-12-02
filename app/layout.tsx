@@ -1,6 +1,7 @@
 import './globals.css'
 import { Analytics } from '@vercel/analytics/react'
 import { Inter } from 'next/font/google'
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 import type { Metadata } from 'next'
 
 import { ThemeProvider } from '@/components/theme-provider'
@@ -19,12 +20,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider defaultTheme="light">
-          {children}
-          <Analytics />
-        </ThemeProvider>
-      </body>
+      <UserProvider>
+        <body className={inter.className}>
+          <ThemeProvider defaultTheme="light">
+            {children}
+            <Analytics />
+          </ThemeProvider>
+        </body>
+      </UserProvider>
     </html>
   )
 }
