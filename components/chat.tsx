@@ -1,8 +1,9 @@
 'use client';
 
-import { AlertCircle, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useChat } from 'ai/react';
+import { signOut } from 'next-auth/react';
+import { AlertCircle, Trash2 } from 'lucide-react';
 
 import MessageInput from './message-input';
 import MessageList from './message-list';
@@ -10,7 +11,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from './ui/button';
 import { ThemeToggle } from './theme-toggle';
 import { Welcome } from './welcome';
-
 
 export default function Chat() {
   const [localError, setLocalError] = useState<string | null>(null);
@@ -57,16 +57,25 @@ export default function Chat() {
     <div className="flex flex-col h-screen bg-background">
       <header className="flex justify-between items-center p-4 border-b">
         <h1 className="text-2xl font-bold">Greg&apos;s Chatbot</h1>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleClearChat}
-          className="flex items-center mr-12"
-        >
-          <Trash2 className="h-4 w-4 mr-2" />
-          Clear Chat
-        </Button>
-        <ThemeToggle />
+        <div className="flex items-center space-x-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleClearChat}
+            className="flex items-center space-x-2"
+          >
+            <Trash2 className="h-4 w-4" />
+            <span>Clear Chat</span>
+          </Button>
+          <ThemeToggle />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => signOut({ callbackUrl: '/login' })}
+          >
+            Sign Out
+          </Button>
+        </div>
       </header>
       <main className="flex-1 overflow-hidden flex flex-col">
         {(error || localError) && (
