@@ -1,5 +1,8 @@
-import { redirect } from 'next/navigation';
+import Chat from '@/components/chat'
 
 export default function Home() {
-  redirect('/chat');
+  return (
+    <Chat />
+  )
 }
+
