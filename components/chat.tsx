@@ -63,7 +63,7 @@ export default function Chat() {
     <div className="flex flex-col h-screen bg-background">
       <header className="flex justify-between items-center p-4 border-b">
         <h1 className="text-2xl font-bold">Greg&apos;s Chatbot</h1>
-        <div className="flex mr-12 gap-4">
+        <div className="flex mr-14 gap-4">
           <Button
             variant="outline"
             size="sm"
