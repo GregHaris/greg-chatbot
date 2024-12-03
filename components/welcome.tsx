@@ -1,3 +1,5 @@
+import { useUser } from '@auth0/nextjs-auth0/client';
+
 const SAMPLE_QUESTIONS = [
   "What is Greg's Chatbot?",
   'What is the area of a  circle?',
@@ -25,6 +27,8 @@ function SampleQuestionButton({
 }
 
 export function Welcome() {
+  const { user } = useUser();
+
   const handleSampleQuestionClick = (question: string) => {
     const textarea = document.querySelector('textarea');
     if (textarea instanceof HTMLTextAreaElement) {
@@ -36,7 +40,7 @@ export function Welcome() {
   return (
     <div className="flex-1 flex flex-col items-center justify-center space-y-4 px-4">
       <div className="flex items-center justify-center space-x-2">
-        <h1 className="text-4xl font-bold">Hi, I&apos;m Greg</h1>
+        <h1 className="text-4xl font-bold">Hi {user?.name}, I&apos;m Greg</h1>
       </div>
       <p className="text-xl text-muted-foreground">How can I help you today?</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
