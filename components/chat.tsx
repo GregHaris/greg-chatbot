@@ -12,11 +12,10 @@ import { Button } from './ui/button';
 import { ThemeToggle } from './theme-toggle';
 import { Welcome } from './welcome';
 
-
 export default function Chat() {
   const [localError, setLocalError] = useState<string | null>(null);
 
-  const router = useRouter()
+  const router = useRouter();
 
   // Initialize chat with stored messages or empty array
   const {
@@ -57,31 +56,33 @@ export default function Chat() {
   };
 
   const handleLogout = () => {
-  router.push('api/auth/logout')
-}
+    router.push('api/auth/logout');
+  };
 
   return (
     <div className="flex flex-col h-screen bg-background">
       <header className="flex justify-between items-center p-4 border-b">
         <h1 className="text-2xl font-bold">Greg&apos;s Chatbot</h1>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleClearChat}
-          className="flex items-center mr-12"
-        >
-          <Trash2 className="h-4 w-4 mr-2" />
-          Clear Chat
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleLogout}
-          className="flex items-center space-x-2"
-        >
-          <LogOut className="h-4 w-4" />
-          <span>Logout</span>
-        </Button>
+        <div className="flex mr-12 gap-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleClearChat}
+            className="flex items-center"
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            Clear Chat
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleLogout}
+            className="flex items-center space-x-2"
+          >
+            <LogOut className="h-4 w-4" />
+            <span>Logout</span>
+          </Button>
+        </div>
         <ThemeToggle />
       </header>
       <main className="flex-1 overflow-hidden flex flex-col">
