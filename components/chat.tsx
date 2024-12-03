@@ -4,6 +4,7 @@ import { AlertCircle, Trash2, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useChat } from 'ai/react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 import MessageInput from './message-input';
 import MessageList from './message-list';
@@ -14,7 +15,7 @@ import { Welcome } from './welcome';
 
 export default function Chat() {
   const [localError, setLocalError] = useState<string | null>(null);
-
+  const { user } = useUser();
   const router = useRouter();
 
   // Initialize chat with stored messages or empty array
@@ -31,6 +32,25 @@ export default function Chat() {
       typeof window !== 'undefined'
         ? JSON.parse(localStorage.getItem('chatMessages') || '[]')
         : [],
+    onFinish: async (message) => {
+      if (user && user.sub) {
+        try {
+          await fetch('api/save-interaction', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              auth0Id: user.sub,
+              message: input,
+              response: message.content,
+            }),
+          });
+        } catch (error) {
+          console.error('failed to save interaction:', error);
+        }
+      }
+    },
   });
 
   // Save messages to localStorage whenever they change
