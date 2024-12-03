@@ -4,18 +4,31 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-import { Button } from '@/components/button';
+import { Button } from '@/components/ui/button';
 
-const ProfileClient = () => {
+export default function AuthPage() {
   const { user, error, isLoading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     if (user) {
-      router.push('/');
+      fetch('/api/create-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          auth0Id: user.sub,
+          email: user.email,
+          name: user.name,
+        }),
+      })
+        .then(() => router.push('/'))
+        .catch((error) => console.error('Failed to create user:', error));
     }
   }, [user, router]);
-  if (isLoading) return <div>Load...</div>;
+
+  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
   return (
@@ -28,6 +41,4 @@ const ProfileClient = () => {
       </Button>
     </div>
   );
-};
-
-export default ProfileClient;
+}
