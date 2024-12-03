@@ -1,8 +1,9 @@
 'use client';
 
-import { AlertCircle, Trash2 } from 'lucide-react';
+import { AlertCircle, Trash2, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useChat } from 'ai/react';
+import { useRouter } from 'next/navigation';
 
 import MessageInput from './message-input';
 import MessageList from './message-list';
@@ -14,6 +15,8 @@ import { Welcome } from './welcome';
 
 export default function Chat() {
   const [localError, setLocalError] = useState<string | null>(null);
+
+  const router = useRouter()
 
   // Initialize chat with stored messages or empty array
   const {
@@ -53,6 +56,10 @@ export default function Chat() {
     setMessages([]);
   };
 
+  const handleLogout = () => {
+  router.push('api/auth/logout')
+}
+
   return (
     <div className="flex flex-col h-screen bg-background">
       <header className="flex justify-between items-center p-4 border-b">
@@ -65,6 +72,15 @@ export default function Chat() {
         >
           <Trash2 className="h-4 w-4 mr-2" />
           Clear Chat
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleLogout}
+          className="flex items-center space-x-2"
+        >
+          <LogOut className="h-4 w-4" />
+          <span>Logout</span>
         </Button>
         <ThemeToggle />
       </header>
