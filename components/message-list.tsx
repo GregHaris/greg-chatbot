@@ -28,7 +28,7 @@ const CodeBlock = ({
   className?: string;
 }) => {
   const match = /language-(\w+)/.exec(className || '');
-  const language = match ? match[1] : 'text';
+  const language = match ? match[1] : 'bash';
   const codeText = String(children).replace(/\n$/, '');
   const [buttonText, setButtonText] = useState('Copy code');
 
@@ -47,14 +47,14 @@ const CodeBlock = ({
   return (
     <div className="relative group">
       <div className="absolute top-0 left-0 text-white text-xs px-2 py-1 rounded-bl">
-        {language.toLowerCase()}
+        {language}
       </div>
       <SyntaxHighlighter
         PreTag="div"
         language={language}
         style={nightOwl}
         customStyle={customStyle}
-        showInlineLineNumbers
+        showLineNumbers
       >
         {codeText}
       </SyntaxHighlighter>
