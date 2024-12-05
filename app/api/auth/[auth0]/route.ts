@@ -6,11 +6,6 @@ const authHandler = handleAuth({
     authorizationParams: {
       prompt: 'login',
     },
-    getLoginState: (req: NextRequest) => {
-      const url = new URL(req.url);
-      const remember = url.searchParams.get('remember') === 'true';
-      return { remember };
-    },
   }),
 });
 

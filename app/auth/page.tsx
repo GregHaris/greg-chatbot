@@ -1,16 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 
 export default function AuthPage() {
   const { user, error, isLoading } = useUser();
   const router = useRouter();
-  const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -32,7 +30,7 @@ export default function AuthPage() {
 
   const handleLogin = () => {
     // Force re-authentication by adding a 'prompt=login' parameter
-    const loginUrl = `/api/auth/login?prompt=login${rememberMe ? '&remember=true' : ''}`;
+    const loginUrl = `/api/auth/login?prompt=login`;
     router.push(loginUrl);
   };
 
@@ -47,19 +45,6 @@ export default function AuthPage() {
       <Button className="mb-4" onClick={handleLogin}>
         Log In / Sign Up
       </Button>
-      <div className="flex items-center space-x-2">
-        <Checkbox
-          id="rememberMe"
-          checked={rememberMe}
-          onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-        />
-        <label
-          htmlFor="rememberMe"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Remember me
-        </label>
-      </div>
     </div>
   );
 }
