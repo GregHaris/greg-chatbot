@@ -4,13 +4,14 @@ import { nightOwl } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { Message } from 'ai';
 import { useState } from 'react';
-import { FiCopy } from 'react-icons/fi';
+import { FiCopy, FiRefreshCw } from 'react-icons/fi';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 type MessageListProps = {
   messages: Message[];
+  onRegenerate: (messageId: string) => void;
 };
 
 const customStyle = {
@@ -27,7 +28,10 @@ const lineNumberStyle = {
   color: '#999',
 };
 
-export default function MessageList({ messages }: MessageListProps) {
+export default function MessageList({
+  messages,
+  onRegenerate,
+}: MessageListProps) {
   const CodeBlock = ({
     children,
     className,
@@ -96,16 +100,59 @@ export default function MessageList({ messages }: MessageListProps) {
     );
   };
 
+  const ActionButtons = ({ messageId }: { messageId: string }) => {
+    const [copyButtonText, setCopyButtonText] = useState('Copy');
+
+    const handleCopy = () => {
+      const messageContent =
+        messages.find((msg) => msg.id === messageId)?.content || '';
+      navigator.clipboard
+        .writeText(messageContent)
+        .then(() => {
+          setCopyButtonText('Copied');
+          setTimeout(() => {
+            setCopyButtonText('Copy');
+          }, 6000);
+        })
+        .catch((error) => {
+          console.error('Failed to copy message:', error);
+        });
+    };
+
+    const handleRegenerate = () => {
+      onRegenerate(messageId);
+    };
+
+    return (
+      <div className="absolute bottom-0 left-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <button
+          className="bg-gray-700 text-white p-2 rounded"
+          onClick={handleCopy}
+          title={copyButtonText}
+        >
+          <FiCopy />
+        </button>
+        <button
+          className="bg-gray-700 text-white p-2 rounded"
+          onClick={handleRegenerate}
+          title="Regenerate"
+        >
+          <FiRefreshCw />
+        </button>
+      </div>
+    );
+  };
+
   const MessageBubble = ({ message }: { message: Message }) => (
     <div
-      className={`px-4 py-2 rounded-lg max-w-[85%] ${
+      className={`relative px-4 py-2 rounded-lg max-w-[85%] group ${
         message.role === 'user'
           ? 'bg-primary text-primary-foreground'
           : 'bg-muted/50 text-foreground'
       }`}
     >
       <Markdown
-        className={'leading-8'}
+        className={'leading-8 pb-6'}
         remarkPlugins={[remarkGfm]}
         components={{
           code({ children, className }) {
@@ -115,6 +162,7 @@ export default function MessageList({ messages }: MessageListProps) {
       >
         {message.content}
       </Markdown>
+      {message.role === 'assistant' && <ActionButtons messageId={message.id} />}
     </div>
   );
 
@@ -130,7 +178,7 @@ export default function MessageList({ messages }: MessageListProps) {
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex items-start mb-4 ${
+            className={`flex items-start mb-4 p-5${
               message.role === 'user' ? 'justify-end' : 'justify-start'
             }`}
           >
