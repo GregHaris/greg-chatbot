@@ -28,7 +28,7 @@ export default function MessageInput({
     if (textareaRef.current) {
       const textareaLineHeight = 24;
       const minRows = 1;
-      const maxRows = 5;
+      const maxRows = 12;
 
       const previousRows = textareaRef.current.rows;
       textareaRef.current.rows = minRows;
