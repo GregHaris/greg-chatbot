@@ -3,6 +3,7 @@ import remarkGfm from 'remark-gfm';
 import { nightOwl } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { Message } from 'ai';
+import { useState } from 'react';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -11,7 +12,18 @@ type MessageListProps = {
   messages: Message[];
 };
 
-export default function MessageList({ messages }: MessageListProps) {
+const CodeBlock = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  const match = /language-(\w+)/.exec(className || '');
+  const language = match ? match[1] : 'text';
+  const codeText = String(children).replace(/\n$/, '');
+  const [buttonText, setButtonText] = useState('Copy');
+
   const customStyle = {
     lineHeight: '1.5',
     fontSize: '1rem',
@@ -19,17 +31,41 @@ export default function MessageList({ messages }: MessageListProps) {
     padding: '20px',
   };
 
-  const handleCopy = (text: string) => {
+  const handleCopy = () => {
     navigator.clipboard
-      .writeText(text)
+      .writeText(codeText)
       .then(() => {
-        console.log('Code copied to clipboard');
+        setButtonText('Copied');
+        // Reset after 2 seconds
+        setTimeout(() => setButtonText('Copy'), 2000); // Reset after 2 seconds
       })
       .catch((error) => {
         console.error('Failed to copy code:', error);
       });
   };
 
+  return (
+    <div className="relative group">
+      <SyntaxHighlighter
+        PreTag="div"
+        language={language}
+        style={nightOwl}
+        customStyle={customStyle}
+        showInlineLineNumbers
+      >
+        {codeText}
+      </SyntaxHighlighter>
+      <button
+        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gray-700 text-white px-2 py-1 rounded"
+        onClick={handleCopy}
+      >
+        {buttonText}
+      </button>
+    </div>
+  );
+};
+
+export default function MessageList({ messages }: MessageListProps) {
   return (
     <ScrollArea className="flex-1 p-4">
       <div className="max-w-4xl mx-auto">
@@ -57,28 +93,8 @@ export default function MessageList({ messages }: MessageListProps) {
                 remarkPlugins={[remarkGfm]}
                 components={{
                   code({ children, className }) {
-                    const match = /language-(\w+)/.exec(className || '');
-                    const language = match ? match[1] : 'text';
-                    const codeText = String(children).replace(/\n$/, '');
-
                     return (
-                      <div className="relative group">
-                        <SyntaxHighlighter
-                          PreTag="div"
-                          language={language}
-                          style={nightOwl}
-                          customStyle={customStyle}
-                          showInlineLineNumbers
-                        >
-                          {codeText}
-                        </SyntaxHighlighter>
-                        <button
-                          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gray-700 text-white px-2 py-1 rounded"
-                          onClick={() => handleCopy(codeText)}
-                        >
-                          Copy
-                        </button>
-                      </div>
+                      <CodeBlock className={className}>{children}</CodeBlock>
                     );
                   },
                 }}
