@@ -37,7 +37,7 @@ const CodeBlock = ({
       .writeText(codeText)
       .then(() => {
         setButtonText('Copied');
-        setTimeout(() => setButtonText('Copy code'), 2000); // Reset after 2 seconds
+        setTimeout(() => setButtonText('Copy code'), 6000);
       })
       .catch((error) => {
         console.error('Failed to copy code:', error);
