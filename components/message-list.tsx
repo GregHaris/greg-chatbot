@@ -45,6 +45,9 @@ export default function MessageList({ messages }: MessageListProps) {
         .writeText(codeText)
         .then(() => {
           setButtonText('Copied');
+          setTimeout(() => {
+            setButtonText('Copy code');
+          }, 6000);
         })
         .catch((error) => {
           console.error('Failed to copy code:', error);
