@@ -17,7 +17,7 @@ const customStyle = {
   lineHeight: '1.5',
   fontSize: '1rem',
   borderRadius: '10px',
-  padding: '20px',
+  padding: '40px',
 };
 
 const CodeBlock = ({
@@ -46,6 +46,9 @@ const CodeBlock = ({
 
   return (
     <div className="relative group">
+      <div className="absolute top-0 left-0 text-white text-xs px-2 py-1 rounded-bl">
+        {language.toLowerCase()}
+      </div>
       <SyntaxHighlighter
         PreTag="div"
         language={language}
