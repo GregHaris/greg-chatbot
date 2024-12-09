@@ -43,6 +43,7 @@ export default function MessageList({
 }: MessageListProps) {
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [editedContent, setEditedContent] = useState('');
+  const [originalContent, setOriginalContent] = useState('');
 
   const CodeBlock = ({
     children,
@@ -132,6 +133,7 @@ export default function MessageList({
     const handleEdit = () => {
       setEditingMessageId(message.id);
       setEditedContent(message.content);
+      setOriginalContent(message.content);
     };
 
     const handleDelete = () => {
@@ -227,6 +229,8 @@ export default function MessageList({
       setEditingMessageId(null);
     };
 
+    const isSubmitDisabled = editedContent === originalContent;
+
     return (
       <div
         className={`relative px-4 py-2 rounded-lg max-w-[85%] group ${
@@ -252,7 +256,11 @@ export default function MessageList({
               >
                 Cancel
               </Button>
-              <Button size="sm" onClick={handleSubmitEdit}>
+              <Button
+                size="sm"
+                onClick={handleSubmitEdit}
+                disabled={isSubmitDisabled}
+              >
                 Submit
               </Button>
             </div>
