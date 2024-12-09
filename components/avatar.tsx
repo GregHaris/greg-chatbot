@@ -5,7 +5,6 @@ import { forwardRef, ComponentPropsWithoutRef } from 'react';
 
 import { cn } from '@/lib/utils';
 
-
 const Avatar = forwardRef<
   HTMLSpanElement,
   ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
