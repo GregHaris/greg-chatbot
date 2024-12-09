@@ -241,11 +241,10 @@ export default function MessageList({
               ref={textareaRef}
               value={editedContent}
               onChange={handleTextareaChange}
-              className="w-full p-2 text-foreground bg-background border rounded resize-none"
-              placeholder="Edit your message..."
-              rows={3}
+              className="w-4/5 p-2 text-foreground bg-background border rounded resize-none"
+              rows={5}
             />
-            <div className="flex justify-end space-x-2">
+            <div className="flex justify-end space-x-2 text-black">
               <Button
                 size="sm"
                 variant="outline"
