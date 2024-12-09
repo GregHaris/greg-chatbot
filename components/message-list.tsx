@@ -231,17 +231,17 @@ export default function MessageList({
       <div
         className={`relative px-4 py-2 rounded-lg max-w-[85%] group ${
           message.role === 'user'
-            ? 'bg-primary text-primary-foreground ml-auto'
+            ? 'bg-primary text-primary-foreground'
             : 'bg-muted/50 text-foreground'
         } ${editingMessageId === message.id ? 'bg-transparent' : ''}`}
       >
         {editingMessageId === message.id ? (
-          <div className="flex flex-col space-y-2">
+          <div className="space-y-2">
             <Textarea
               ref={textareaRef}
               value={editedContent}
               onChange={handleTextareaChange}
-              className="w-4/5 p-2 text-foreground bg-background border rounded resize-none"
+              className="w-full p-2 text-foreground bg-background border rounded resize-none"
               rows={5}
             />
             <div className="flex justify-end space-x-2 text-black">
@@ -291,7 +291,7 @@ export default function MessageList({
 
   return (
     <ScrollArea className="flex-1 p-4">
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="flex flex-col max-w-4xl mx-auto space-y-6">
         {messages.map((message) => (
           <div
             key={message.id}
