@@ -1,9 +1,9 @@
 'use client';
 
 import { AlertCircle, Trash2, LogOut } from 'lucide-react';
-import { useState, useEffect } from 'react';
 import { useChat } from 'ai/react';
 import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import MessageInput from './message-input';
@@ -27,6 +27,8 @@ export default function Chat() {
     isLoading,
     error,
     setMessages,
+    append,
+    stop,
   } = useChat({
     initialMessages:
       typeof window !== 'undefined'
@@ -76,8 +78,50 @@ export default function Chat() {
   };
 
   const handleLogout = () => {
-    router.push('api/auth/logout');
+    router.push('/api/auth/logout');
   };
+
+  const handleDeleteMessage = useCallback(
+    (messageId: string) => {
+      setMessages((prevMessages) =>
+        prevMessages.filter((msg) => msg.id !== messageId),
+      );
+    },
+    [setMessages],
+  );
+
+  const handleEditMessage = useCallback(
+    (messageId: string, newContent: string) => {
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === messageId ? { ...msg, content: newContent } : msg,
+        ),
+      );
+    },
+    [setMessages],
+  );
+
+  const handleRegenerateMessage = useCallback(
+    (messageId: string) => {
+      const messageIndex = messages.findIndex((msg) => msg.id === messageId);
+      if (messageIndex !== -1 && messageIndex > 0) {
+        const userMessage = messages[messageIndex - 1];
+        if (userMessage && userMessage.role === 'user') {
+          // Remove only the AI's response
+          setMessages((prevMessages) =>
+            prevMessages.filter((msg) => msg.id !== messageId),
+          );
+          // Trigger a new response based on the user's message
+          append({
+            role: 'user',
+            content: userMessage.content,
+            id: `${userMessage.id}-regenerate`,
+          });
+        }
+      }
+    },
+    [messages, append, setMessages],
+  );
 
   return (
     <div className="flex flex-col h-screen bg-background">
@@ -118,13 +162,19 @@ export default function Chat() {
         {messages.length === 0 ? (
           <Welcome />
         ) : (
-          <MessageList messages={messages} />
+          <MessageList
+            messages={messages}
+            onRegenerate={handleRegenerateMessage}
+            onDelete={handleDeleteMessage}
+            onEdit={handleEditMessage}
+          />
         )}
         <MessageInput
           input={input}
           handleInputChange={handleInputChange}
           handleSubmit={handleLocalSubmit}
           isLoading={isLoading}
+          stop={stop}
         />
       </main>
     </div>
