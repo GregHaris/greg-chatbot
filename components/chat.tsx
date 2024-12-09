@@ -102,7 +102,7 @@ export default function Chat() {
   );
 
   const handleRegenerateMessage = useCallback(
-    (messageId: string) => {
+    (messageId: string, newContent?: string) => {
       const messageIndex = messages.findIndex((msg) => msg.id === messageId);
       if (messageIndex !== -1 && messageIndex > 0) {
         const userMessage = messages[messageIndex - 1];
@@ -113,10 +113,10 @@ export default function Chat() {
               (msg, index) => index < messageIndex - 1 || index > messageIndex,
             ),
           );
-          // Trigger a new response based on the user's message
+          // Trigger a new response based on the user's message or the edited content
           append({
             role: 'user',
-            content: userMessage.content,
+            content: newContent || userMessage.content,
             id: `${userMessage.id}-regenerate`,
           });
         }
@@ -169,6 +169,8 @@ export default function Chat() {
             onRegenerate={handleRegenerateMessage}
             onDelete={handleDeleteMessage}
             onEdit={handleEditMessage}
+            setMessages={setMessages}
+            append={append}
           />
         )}
         <MessageInput

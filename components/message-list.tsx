@@ -3,15 +3,21 @@ import remarkGfm from 'remark-gfm';
 import { nightOwl } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { Message } from 'ai';
-import { useState } from 'react';
-import { FiCopy, FiRefreshCw } from 'react-icons/fi';
+import { useState, useEffect, useRef } from 'react';
+import { FiCopy, FiRefreshCw, FiEdit, FiTrash2 } from 'react-icons/fi';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 
 type MessageListProps = {
   messages: Message[];
-  onRegenerate: (messageId: string) => void;
+  onRegenerate: (messageId: string, newContent?: string) => void;
+  onDelete: (messageId: string) => void;
+  onEdit: (messageId: string, newContent: string) => void;
+  setMessages: (messages: Message[]) => void;
+  append: (message: Message) => void;
 };
 
 const customStyle = {
@@ -31,7 +37,13 @@ const lineNumberStyle = {
 export default function MessageList({
   messages,
   onRegenerate,
+  onDelete,
+  setMessages,
+  append,
 }: MessageListProps) {
+  const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
+  const [editedContent, setEditedContent] = useState('');
+
   const CodeBlock = ({
     children,
     className,
@@ -100,71 +112,177 @@ export default function MessageList({
     );
   };
 
-  const ActionButtons = ({ messageId }: { messageId: string }) => {
+  const ActionButtons = ({ message }: { message: Message }) => {
     const [copyButtonText, setCopyButtonText] = useState('Copy');
 
     const handleCopy = () => {
-      const messageContent =
-        messages.find((msg) => msg.id === messageId)?.content || '';
       navigator.clipboard
-        .writeText(messageContent)
+        .writeText(message.content)
         .then(() => {
           setCopyButtonText('Copied');
           setTimeout(() => {
             setCopyButtonText('Copy');
-          }, 6000);
+          }, 2000);
         })
         .catch((error) => {
           console.error('Failed to copy message:', error);
         });
     };
 
+    const handleEdit = () => {
+      setEditingMessageId(message.id);
+      setEditedContent(message.content);
+    };
+
+    const handleDelete = () => {
+      onDelete(message.id);
+    };
+
     const handleRegenerate = () => {
-      onRegenerate(messageId);
+      onRegenerate(message.id);
     };
 
     return (
-      <div className="absolute bottom-0 left-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <button
-          className="bg-gray-700 text-white p-2 rounded"
+      <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={handleCopy}
+          className="h-8 w-8"
           title={copyButtonText}
         >
-          <FiCopy />
-        </button>
-        <button
-          className="bg-gray-700 text-white p-2 rounded"
-          onClick={handleRegenerate}
-          title="Regenerate"
-        >
-          <FiRefreshCw />
-        </button>
+          <FiCopy className="h-4 w-4" />
+        </Button>
+        {message.role === 'user' && (
+          <>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleEdit}
+              className="h-8 w-8"
+              title="Edit"
+            >
+              <FiEdit className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleDelete}
+              className="h-8 w-8"
+              title="Delete"
+            >
+              <FiTrash2 className="h-4 w-4" />
+            </Button>
+          </>
+        )}
+        {message.role === 'assistant' && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleRegenerate}
+            className="h-8 w-8"
+            title="Regenerate"
+          >
+            <FiRefreshCw className="h-4 w-4" />
+          </Button>
+        )}
       </div>
     );
   };
 
-  const MessageBubble = ({ message }: { message: Message }) => (
-    <div
-      className={`relative px-4 py-2 rounded-lg max-w-[85%] group ${
-        message.role === 'user'
-          ? 'bg-primary text-primary-foreground'
-          : 'bg-muted/50 text-foreground'
-      }`}
-    >
-      <Markdown
-        className={'leading-8 pb-6'}
-        remarkPlugins={[remarkGfm]}
-        components={{
-          code({ children, className }) {
-            return <CodeBlock className={className}>{children}</CodeBlock>;
-          },
-        }}
+  const MessageBubble = ({ message }: { message: Message }) => {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        const length = textareaRef.current.value.length;
+        textareaRef.current.setSelectionRange(length, length);
+      }
+    }, []);
+
+    const handleTextareaChange = (
+      e: React.ChangeEvent<HTMLTextAreaElement>,
+    ) => {
+      setEditedContent(e.target.value);
+      e.target.style.height = 'auto';
+      e.target.style.height = `${e.target.scrollHeight}px`;
+    };
+
+    const handleSubmitEdit = () => {
+      // Find the index of the edited message
+      const messageIndex = messages.findIndex((msg) => msg.id === message.id);
+      if (messageIndex !== -1) {
+        // Delete the edited message and all messages after it
+        const newMessages = messages.slice(0, messageIndex);
+        setMessages(newMessages);
+
+        // Create a new chat and response based on the edited chat
+        append({
+          role: 'user',
+          content: editedContent,
+          id: `${message.id}-edited`,
+        });
+      }
+      setEditingMessageId(null);
+    };
+
+    return (
+      <div
+        className={`relative px-4 py-2 rounded-lg max-w-[85%] group ${
+          message.role === 'user'
+            ? 'bg-primary text-primary-foreground ml-auto'
+            : 'bg-muted/50 text-foreground'
+        } ${editingMessageId === message.id ? 'bg-transparent' : ''}`}
       >
-        {message.content}
-      </Markdown>
-      {message.role === 'assistant' && <ActionButtons messageId={message.id} />}
-    </div>
-  );
+        {editingMessageId === message.id ? (
+          <div className="flex flex-col space-y-2">
+            <Textarea
+              ref={textareaRef}
+              value={editedContent}
+              onChange={handleTextareaChange}
+              className="w-full p-2 text-foreground bg-background border rounded resize-none"
+              placeholder="Edit your message..."
+              rows={3}
+            />
+            <div className="flex justify-end space-x-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setEditingMessageId(null)}
+              >
+                Cancel
+              </Button>
+              <Button size="sm" onClick={handleSubmitEdit}>
+                Submit
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <Markdown
+              className="leading-8 pb-6"
+              remarkPlugins={[remarkGfm]}
+              components={{
+                code({ children, className }) {
+                  return (
+                    <CodeBlock className={className}>{children}</CodeBlock>
+                  );
+                },
+              }}
+            >
+              {message.content}
+            </Markdown>
+            <div
+              className={`absolute bottom-2 ${message.role === 'user' ? 'left-2' : 'right-2'}`}
+            >
+              <ActionButtons message={message} />
+            </div>
+          </>
+        )}
+      </div>
+    );
+  };
 
   const MessageAvatar = ({ role }: { role: string }) => (
     <Avatar className={role === 'assistant' ? 'mr-2' : 'ml-2'}>
@@ -174,11 +292,11 @@ export default function MessageList({
 
   return (
     <ScrollArea className="flex-1 p-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto space-y-6">
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex items-start mb-4 p-5${
+            className={`flex items-start ${
               message.role === 'user' ? 'justify-end' : 'justify-start'
             }`}
           >
