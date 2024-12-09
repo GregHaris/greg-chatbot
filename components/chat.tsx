@@ -3,7 +3,7 @@
 import { AlertCircle, Trash2, LogOut } from 'lucide-react';
 import { useChat } from 'ai/react';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import MessageInput from './message-input';
@@ -107,9 +107,11 @@ export default function Chat() {
       if (messageIndex !== -1 && messageIndex > 0) {
         const userMessage = messages[messageIndex - 1];
         if (userMessage && userMessage.role === 'user') {
-          // Remove only the AI's response
+          // Remove both the user message and the AI's response
           setMessages((prevMessages) =>
-            prevMessages.filter((msg) => msg.id !== messageId),
+            prevMessages.filter(
+              (msg, index) => index < messageIndex - 1 || index > messageIndex,
+            ),
           );
           // Trigger a new response based on the user's message
           append({
