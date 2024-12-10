@@ -268,7 +268,7 @@ export default function MessageList({
         ) : (
           <>
             {message.role === 'user' ? (
-              <pre className="whitespace-break-spaces pb-6 document-font">
+              <pre className="document-font whitespace-pre-wrap pb-6">
                 {message.content}
               </pre>
             ) : (
@@ -276,6 +276,7 @@ export default function MessageList({
                 className="leading-8 pb-6"
                 remarkPlugins={[remarkGfm]}
                 components={{
+                  p: ({ children }) => <div>{children}</div>, 
                   code({ children, className }) {
                     return (
                       <CodeBlock className={className}>{children}</CodeBlock>
