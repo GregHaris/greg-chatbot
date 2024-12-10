@@ -233,7 +233,7 @@ export default function MessageList({
 
     return (
       <div
-        className={`relative px-4 py-2 rounded-lg max-w-[85%] group ${
+        className={`relative px-4 py-2 rounded-lg w-full group ${
           message.role === 'user'
             ? 'bg-primary text-primary-foreground'
             : 'bg-muted/50 text-foreground'
@@ -292,7 +292,7 @@ export default function MessageList({
   };
 
   const MessageAvatar = ({ role }: { role: string }) => (
-    <Avatar className={role === 'assistant' ? 'mr-2' : 'ml-2'}>
+    <Avatar className="mr-2">
       <AvatarFallback>{role === 'assistant' ? 'Greg' : 'You'}</AvatarFallback>
     </Avatar>
   );
@@ -301,15 +301,11 @@ export default function MessageList({
     <ScrollArea className="flex-1 p-4">
       <div className="flex flex-col max-w-4xl mx-auto space-y-6">
         {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex items-start ${
-              message.role === 'user' ? 'justify-end' : 'justify-start'
-            }`}
-          >
-            {message.role === 'assistant' && <MessageAvatar role="assistant" />}
-            <MessageBubble message={message} />
-            {message.role === 'user' && <MessageAvatar role="user" />}
+          <div key={message.id} className="flex flex-col">
+            <div className="flex items-start mb-2">
+              <MessageAvatar role={message.role} />
+              <MessageBubble message={message} />
+            </div>
           </div>
         ))}
       </div>
