@@ -1,6 +1,7 @@
 'use client';
 
 import { AlertCircle, Trash2, LogOut } from 'lucide-react';
+import { Message as SDKMessage } from '@ai-sdk/ui-utils'; 
 import { useChat } from 'ai/react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
@@ -10,8 +11,19 @@ import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/Alert';
 import { Button } from './ui/Button';
+import { Message } from '@/types/Message';
 import { ThemeToggle } from './ThemeToggle';
 import { Welcome } from './Welcome';
+
+
+// Map the SDK's Message type to your custom Message type
+const mapMessages = (sdkMessages: SDKMessage[]): Message[] => {
+  return sdkMessages.map((msg) => ({
+    id: msg.id,
+    role: msg.role === 'data' || msg.role === 'system' ? 'assistant' : msg.role,
+    content: msg.content,
+  }));
+};
 
 export default function Chat() {
   const [localError, setLocalError] = useState<string | null>(null);
@@ -19,7 +31,7 @@ export default function Chat() {
   const router = useRouter();
 
   const {
-    messages,
+    messages: sdkMessages,
     input,
     handleInputChange,
     handleSubmit,
@@ -48,11 +60,14 @@ export default function Chat() {
             }),
           });
         } catch (error) {
-          console.error('failed to save interaction:', error);
+          console.error('Failed to save interaction:', error);
         }
       }
     },
   });
+
+  // Map the SDK's messages to your custom Message type
+  const messages = mapMessages(sdkMessages);
 
   useEffect(() => {
     if (messages.length > 0) {
