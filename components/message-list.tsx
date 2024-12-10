@@ -267,19 +267,25 @@ export default function MessageList({
           </div>
         ) : (
           <>
-            <Markdown
-              className="leading-8 pb-6"
-              remarkPlugins={[remarkGfm]}
-              components={{
-                code({ children, className }) {
-                  return (
-                    <CodeBlock className={className}>{children}</CodeBlock>
-                  );
-                },
-              }}
-            >
-              {message.content}
-            </Markdown>
+            {message.role === 'user' ? (
+              <pre className="whitespace-break-spaces pb-6 document-font">
+                {message.content}
+              </pre>
+            ) : (
+              <Markdown
+                className="leading-8 pb-6"
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  code({ children, className }) {
+                    return (
+                      <CodeBlock className={className}>{children}</CodeBlock>
+                    );
+                  },
+                }}
+              >
+                {message.content}
+              </Markdown>
+            )}
             <div
               className={`absolute bottom-2 ${message.role === 'user' ? 'left-2' : 'right-2'}`}
             >
