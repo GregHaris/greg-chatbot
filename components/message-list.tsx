@@ -235,7 +235,7 @@ export default function MessageList({
       <div
         className={`relative px-4 py-2 rounded-lg w-full group ${
           message.role === 'user'
-            ? 'bg-primary text-primary-foreground'
+            ? 'text-foreground bg-accent'
             : 'bg-muted/50 text-foreground'
         } ${editingMessageId === message.id ? 'bg-transparent' : ''}`}
       >
