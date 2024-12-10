@@ -18,7 +18,6 @@ export default function Chat() {
   const { user } = useUser();
   const router = useRouter();
 
-  // Initialize chat with stored messages or empty array
   const {
     messages,
     input,
@@ -55,7 +54,6 @@ export default function Chat() {
     },
   });
 
-  // Save messages to localStorage whenever they change
   useEffect(() => {
     if (messages.length > 0) {
       localStorage.setItem('chatMessages', JSON.stringify(messages));
@@ -107,13 +105,11 @@ export default function Chat() {
       if (messageIndex !== -1 && messageIndex > 0) {
         const userMessage = messages[messageIndex - 1];
         if (userMessage && userMessage.role === 'user') {
-          // Remove both the user message and the AI's response
           setMessages((prevMessages) =>
             prevMessages.filter(
               (msg, index) => index < messageIndex - 1 || index > messageIndex,
             ),
           );
-          // Trigger a new response based on the user's message or the edited content
           append({
             role: 'user',
             content: newContent || userMessage.content,
