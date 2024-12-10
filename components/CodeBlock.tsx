@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { nightOwl } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { FiCopy } from 'react-icons/fi';
+
 import { copyToClipboard } from '@/utils/copyToClipboard';
 
 type CodeBlockProps = {
