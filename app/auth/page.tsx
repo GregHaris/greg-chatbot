@@ -7,7 +7,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { Button } from '@/components/ui/Button';
 
 export default function AuthPage() {
-  const { user, error, isLoading } = useUser();
+  const { user, error} = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -33,8 +33,6 @@ export default function AuthPage() {
     const loginUrl = `/api/auth/login?prompt=login`;
     router.push(loginUrl);
   };
-
-  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
   return (
