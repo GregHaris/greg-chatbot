@@ -246,7 +246,7 @@ export default function MessageList({
               value={editedContent}
               onChange={handleTextareaChange}
               className="w-full p-2 text-foreground bg-background border rounded resize-none"
-              rows={5}
+              rows={10}
             />
             <div className="flex justify-end space-x-2 text-black">
               <Button
