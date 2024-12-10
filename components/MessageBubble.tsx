@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Textarea } from '@/components/ui/TextArea';
+import { useState, useEffect, useRef } from 'react';
+
+import { ActionButtons } from './ActionButtons';
 import { Button } from '@/components/ui/Button';
 import { CodeBlock } from './CodeBlock';
-import { ActionButtons } from './ActionButtons';
 import { Message } from '@/types/Message';
+import { Textarea } from '@/components/ui/TextArea';
 
 type MessageBubbleProps = {
   message: Message;
