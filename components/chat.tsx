@@ -6,12 +6,12 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-import MessageInput from './message-input';
-import MessageList from './message-list';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from './ui/button';
-import { ThemeToggle } from './theme-toggle';
-import { Welcome } from './welcome';
+import MessageInput from './MessageInput';
+import MessageList from './MessageList';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/Alert';
+import { Button } from './ui/Button';
+import { ThemeToggle } from './ThemeToggle';
+import { Welcome } from './Welcome';
 
 export default function Chat() {
   const [localError, setLocalError] = useState<string | null>(null);
