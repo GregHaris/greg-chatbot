@@ -91,9 +91,6 @@ To install Greg's Chatbot, follow these steps:
 - `eslint: ^9.16.0`
 - `prettier: ^3.4.2`
 
-👉 **[Live Demo](https://gregchatbot.vercel.app)**
-
-Feel free to visit the link, authenticate using your credentials, and start interacting with the chatbot!
 
 ## Contributing
 
@@ -112,6 +109,10 @@ This project is licensed under the [MIT License](LICENSE.md).
 ## Live Demo
 
 You can check out the live demo of Greg's Chatbot deployed on Vercel:
+
+👉 **[Live Demo](https://gregchatbot.vercel.app)**
+
+Feel free to visit the link, authenticate using your credentials, and start interacting with the chatbot!
 
 ## Contact
 
