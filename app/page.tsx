@@ -15,7 +15,6 @@ export default function Home() {
       router.push('/auth');
     }
   }, [user, isLoading, router]);
-  if (isLoading) return <div>Load...</div>;
   if (error) return <div>{error.message}</div>;
   if (!user) return null;
 
