@@ -1,8 +1,8 @@
 import { ArrowRight, Square } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
-import { Button } from './ui/Button';
-import { Textarea } from './ui/TextArea';
+import { Button } from '@ui/Button';
+import { Textarea } from '@ui/TextArea';
 
 type MessageInputProps = {
   input: string;

@@ -3,10 +3,10 @@ import remarkGfm from 'remark-gfm';
 import { useState, useEffect, useRef } from 'react';
 
 import { ActionButtons } from './ActionButtons';
-import { Button } from './ui/Button';
+import { Button } from '@ui/Button';
 import { CodeBlock } from './CodeBlock';
 import { Message } from '@/types/Message';
-import { Textarea } from './ui/TextArea';
+import { Textarea } from '@ui/TextArea';
 
 type MessageBubbleProps = {
   message: Message;

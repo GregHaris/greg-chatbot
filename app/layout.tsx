@@ -5,7 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import type { Metadata } from 'next';
 
-import { ThemeProvider } from '@/components/ThemeProvider';
+import { ThemeProvider } from '@components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 

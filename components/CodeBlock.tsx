@@ -3,7 +3,7 @@ import { nightOwl } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { useState } from 'react';
 
-import { copyToClipboard } from '@/utils/copyToClipboard';
+import { copyToClipboard } from '@utils/copyToClipboard';
 
 type CodeBlockProps = {
   children: React.ReactNode;

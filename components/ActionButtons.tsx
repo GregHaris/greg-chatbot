@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { FiCopy, FiEdit, FiTrash2, FiRefreshCw } from 'react-icons/fi';
 
-import { Button } from './ui/Button';
-import { copyToClipboard } from '@/utils/copyToClipboard';
+import { Button } from '@ui/Button';
+import { copyToClipboard } from '@utils/copyToClipboard';
 import { Message } from '@/types/Message';
 
 type ActionButtonsProps = {
