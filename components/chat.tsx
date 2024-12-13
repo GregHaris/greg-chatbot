@@ -10,7 +10,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 import { Alert, AlertDescription, AlertTitle } from './ui/Alert';
-import { Button } from './ui/Button';
+import { Button } from '@ui/Button';
 import { Message } from '@/types/Message';
 import { ThemeToggle } from './ThemeToggle';
 import { Welcome } from './Welcome';
