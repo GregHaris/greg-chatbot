@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from '@/components/ui/Avatar';
+import { Avatar, AvatarFallback } from './ui/Avatar';
 
 type MessageAvatarProps = {
   role: string;

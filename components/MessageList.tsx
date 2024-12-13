@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { ScrollArea } from '@/components/ui/ScrollArea';
-import { MessageBubble } from './MessageBubble';
-import { MessageAvatar } from './MessageAvatar';
+import { useState } from 'react'
+
 import { Message } from '@/types/Message';
+import { MessageAvatar } from './MessageAvatar';
+import { MessageBubble } from './MessageBubble';
+import { ScrollArea } from './ui/ScrollArea';
 
 type MessageListProps = {
   messages: Message[];
