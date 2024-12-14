@@ -91,7 +91,6 @@ To install Greg's Chatbot, follow these steps:
 - `eslint: ^9.16.0`
 - `prettier: ^3.4.2`
 
-
 ## Contributing
 
 If you're interested in contributing to Greg's Chatbot, please feel free to open a pull request on GitHub.
