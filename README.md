@@ -2,6 +2,8 @@
 
 Greg's Chatbot is an AI-powered chatbot built with React, TypeScript, Node.js, TailwindCSS, Next.js, etc to provide seamless and intelligent conversational experiences.
 
+![Greg's Chatbot Demo](https://github.com/GregHaris/greg-chatbot/blob/main/public/greg-chatbot.gif)
+
 ## Features
 
 - **AI-Powered Conversations**: Utilizes Llama 3 AI model via Groq's AI for natural and intelligent interactions.
