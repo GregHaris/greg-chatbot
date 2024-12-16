@@ -12,6 +12,10 @@ interface SampleQuestionButtonProps {
   onClick: (question: string) => void;
 }
 
+interface WelcomeProps {
+  setInput: (value: string) => void;
+}
+
 function SampleQuestionButton({
   question,
   onClick,
@@ -26,10 +30,9 @@ function SampleQuestionButton({
   );
 }
 
-export function Welcome() {
+export function Welcome({ setInput }: WelcomeProps) {
   const { user } = useUser();
 
-  // Function to extract the part of the name before the '@' symbol
   const getDisplayName = (name: string | null | undefined) => {
     if (!name) return '';
     const atIndex = name.indexOf('@');
@@ -37,11 +40,10 @@ export function Welcome() {
   };
 
   const handleSampleQuestionClick = (question: string) => {
+    setInput(question);
     const textarea = document.querySelector('textarea');
     if (textarea instanceof HTMLTextAreaElement) {
-      textarea.value = question;
-      textarea.dispatchEvent(new Event('input', { bubbles: true }));
-      textarea.focus();
+      textarea.focus(); 
     }
   };
 
