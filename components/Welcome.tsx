@@ -1,7 +1,7 @@
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 const SAMPLE_QUESTIONS = [
-  "What is a Chatbot?",
+  'What is a Chatbot?',
   'What is the area of a circle?',
   'Create a a website for me',
   'Teach me Python',
@@ -41,6 +41,7 @@ export function Welcome() {
     if (textarea instanceof HTMLTextAreaElement) {
       textarea.value = question;
       textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      textarea.focus();
     }
   };
 
