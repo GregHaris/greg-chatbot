@@ -32,12 +32,12 @@ export const ActionButtons = ({
   };
 
   return (
-    <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+    <div className="flex gap-1">
       <Button
         variant="ghost"
-        size="icon"
+        size="sm"
         onClick={handleCopy}
-        className="h-8 w-8"
+        className="h-8 w-8 p-0"
         title={copyButtonText}
       >
         <FiCopy className="h-4 w-4" />
@@ -46,18 +46,18 @@ export const ActionButtons = ({
         <>
           <Button
             variant="ghost"
-            size="icon"
+            size="sm"
             onClick={onEdit}
-            className="h-8 w-8"
+            className="h-8 w-8 p-0"
             title="Edit"
           >
             <FiEdit className="h-4 w-4" />
           </Button>
           <Button
             variant="ghost"
-            size="icon"
+            size="sm"
             onClick={onDelete}
-            className="h-8 w-8"
+            className="h-8 w-8 p-0"
             title="Delete"
           >
             <FiTrash2 className="h-4 w-4" />
@@ -67,9 +67,9 @@ export const ActionButtons = ({
       {message.role === 'assistant' && (
         <Button
           variant="ghost"
-          size="icon"
+          size="sm"
           onClick={onRegenerate}
-          className="h-8 w-8"
+          className="h-8 w-8 p-0"
           title="Regenerate"
         >
           <FiRefreshCw className="h-4 w-4" />
