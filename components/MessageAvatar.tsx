@@ -5,7 +5,7 @@ type MessageAvatarProps = {
 };
 
 export const MessageAvatar = ({ role }: MessageAvatarProps) => (
-  <Avatar className="mr-2">
+  <Avatar className="hidden md:block mr-2">
     <AvatarFallback>{role === 'assistant' ? 'Greg' : 'You'}</AvatarFallback>
   </Avatar>
 );
