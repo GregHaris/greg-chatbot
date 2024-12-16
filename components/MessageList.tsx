@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 import { Message } from '@/types/Message';
 import { MessageAvatar } from './MessageAvatar';
@@ -28,11 +28,11 @@ const MessageList = ({
   };
 
   return (
-    <ScrollArea className="flex-1 p-4">
-      <div className="flex flex-col max-w-4xl mx-auto space-y-6">
+    <ScrollArea className="flex-1 p-2">
+      <div className="flex flex-col max-w-4xl mx-auto space-y-4">
         {messages.map((message) => (
           <div key={message.id} className="flex flex-col">
-            <div className="flex items-start mb-2">
+            <div className="flex items-start mb-1">
               <MessageAvatar role={message.role} />
               <MessageBubble
                 message={message}

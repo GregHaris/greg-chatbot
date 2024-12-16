@@ -1,5 +1,6 @@
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useMediaQuery } from 'react-responsive';
 import { useState, useEffect, useRef } from 'react';
 
 import { ActionButtons } from './ActionButtons';
@@ -28,6 +29,9 @@ export const MessageBubble = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [editedContent, setEditedContent] = useState(message.content);
 
+  // Use react-responsive to detect screen size
+  const isDesktop = useMediaQuery({ minWidth: 768 });
+
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.focus();
@@ -51,7 +55,7 @@ export const MessageBubble = ({
 
   return (
     <div
-      className={`relative px-4 py-2 rounded-lg w-full group ${
+      className={`relative px-3 py-2 rounded-lg w-full ${
         message.role === 'user'
           ? 'text-foreground bg-accent'
           : 'bg-muted/50 text-foreground'
@@ -64,7 +68,7 @@ export const MessageBubble = ({
             value={editedContent}
             onChange={handleTextareaChange}
             className="w-full p-2 text-foreground bg-background border rounded resize-none"
-            rows={10}
+            rows={isDesktop ? 10 : 5}
           />
           <div className="flex justify-end space-x-2 text-black">
             <Button
@@ -86,15 +90,20 @@ export const MessageBubble = ({
       ) : (
         <>
           {message.role === 'user' ? (
-            <pre className="document-font whitespace-pre-wrap pb-6">
+            <pre
+              className="document-font whitespace-pre-wrap pb-4"
+              style={{ maxWidth: '50' }}
+            >
               {message.content}
             </pre>
           ) : (
             <Markdown
-              className="leading-8 pb-6"
+              className="leading-8 pb-4"
               remarkPlugins={[remarkGfm]}
               components={{
-                p: ({ children }) => <div>{children}</div>,
+                p: ({ children }) => (
+                  <div style={{ maxWidth: '50' }}>{children}</div>
+                ),
                 code({ children, className }) {
                   return (
                     <CodeBlock className={className}>{children}</CodeBlock>
@@ -106,9 +115,9 @@ export const MessageBubble = ({
             </Markdown>
           )}
           <div
-            className={`absolute bottom-2 ${
-              message.role === 'user' ? 'left-2' : 'right-2'
-            }`}
+            className={`absolute bottom-1 ${
+              message.role === 'user' ? 'left-1' : 'right-1'
+            } md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300`}
           >
             <ActionButtons
               message={message}
