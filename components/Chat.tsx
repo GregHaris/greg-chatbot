@@ -15,6 +15,7 @@ import { Button } from '@ui/Button';
 import { Message } from '@/types/Message';
 import { Welcome } from './Welcome';
 
+// Helper function to map SDK messages to app-specific messages
 const mapMessages = (sdkMessages: SDKMessage[]): Message[] => {
   return sdkMessages.map((msg) => ({
     id: msg.id,
@@ -68,12 +69,14 @@ export default function Chat() {
 
   const messages = mapMessages(sdkMessages);
 
+  // Save messages to localStorage whenever they change
   useEffect(() => {
     if (messages.length > 0) {
       localStorage.setItem('chatMessages', JSON.stringify(messages));
     }
   }, [messages]);
 
+  // Handle form submission with error handling
   const handleLocalSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLocalError(null);
@@ -84,16 +87,19 @@ export default function Chat() {
     }
   };
 
+  // Clear chat and reset messages
   const handleClearChat = () => {
     localStorage.removeItem('chatMessages');
     setMessages([]);
     setIsMenuOpen(false);
   };
 
+  // Logout user
   const handleLogout = () => {
     router.push('/api/auth/logout');
   };
 
+  // Delete a message
   const handleDeleteMessage = useCallback(
     (messageId: string) => {
       setMessages((prevMessages) =>
@@ -103,6 +109,7 @@ export default function Chat() {
     [setMessages],
   );
 
+  // Edit a message
   const handleEditMessage = useCallback(
     (messageId: string, newContent: string) => {
       setMessages((prevMessages) =>
@@ -114,6 +121,7 @@ export default function Chat() {
     [setMessages],
   );
 
+  // Regenerate a message
   const handleRegenerateMessage = useCallback(
     (messageId: string, newContent?: string) => {
       const messageIndex = messages.findIndex((msg) => msg.id === messageId);
@@ -136,11 +144,12 @@ export default function Chat() {
     [messages, append, setMessages],
   );
 
+  // Toggle mobile menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-
+  // Set input value for sample questions
   const setInputValue = (value: string) => {
     handleInputChange({
       target: { value },
