@@ -140,6 +140,13 @@ export default function Chat() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Function to set the input value
+  const setInputValue = (value: string) => {
+    handleInputChange({
+      target: { value },
+    } as React.ChangeEvent<HTMLTextAreaElement>);
+  };
+
   return (
     <div className="flex flex-col h-screen bg-background">
       <header className="flex justify-between items-center p-4 border-b relative">
@@ -234,7 +241,7 @@ export default function Chat() {
           </Alert>
         )}
         {messages.length === 0 ? (
-          <Welcome />
+          <Welcome setInput={setInputValue} />
         ) : (
           <MessageList
             messages={messages}
