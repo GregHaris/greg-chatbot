@@ -140,7 +140,7 @@ export default function Chat() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Function to set the input value
+
   const setInputValue = (value: string) => {
     handleInputChange({
       target: { value },
