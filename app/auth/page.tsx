@@ -7,7 +7,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { Button } from '@/components/ui/Button';
 
 export default function AuthPage() {
-  const { user, error} = useUser();
+  const { user, error } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -33,14 +33,15 @@ export default function AuthPage() {
     const loginUrl = `/api/auth/login?prompt=login`;
     router.push(loginUrl);
   };
+
   if (error) return <div>{error.message}</div>;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background">
-      <h1 className="text-4xl font-bold mb-8">
+      <h1 className="text-4xl font-bold mb-8 text-center">
         Welcome to Greg&apos;s Chatbot
       </h1>
-      <Button className="mb-4" onClick={handleLogin}>
+      <Button className="mb-4 w-full max-w-sm" onClick={handleLogin}>
         Log In / Sign Up
       </Button>
     </div>
