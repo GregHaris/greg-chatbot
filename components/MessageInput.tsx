@@ -30,7 +30,7 @@ export default function MessageInput({
     if (textareaRef.current) {
       const textareaLineHeight = 24;
       const minRows = 1;
-      const maxRows = 12;
+      const maxRows = 5;
 
       const previousRows = textareaRef.current.rows;
       textareaRef.current.rows = minRows;
@@ -65,10 +65,10 @@ export default function MessageInput({
   };
 
   return (
-    <div className="p-4 mt-auto bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t">
+    <div className="p-2 sm:p-4 mt-auto bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t">
       <form
         onSubmit={handleSubmit}
-        className="relative max-w-4xl mx-auto flex items-center"
+        className="relative max-w-2xl mx-auto flex items-center"
       >
         <Textarea
           ref={textareaRef}
@@ -77,8 +77,8 @@ export default function MessageInput({
           value={input}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          className="resize-none pr-12 py-3 min-h-[44px] rounded-2xl border-muted-foreground/20 bg-background focus-visible:ring-1 focus-visible:ring-offset-1"
-          style={{ height: rows === 1 ? '44px' : 'auto' }}
+          className="resize-none pr-10 sm:pr-12 py-2 sm:py-3 min-h-[40px] sm:min-h-[44px] rounded-xl sm:rounded-2xl border-muted-foreground/20 bg-background focus-visible:ring-1 focus-visible:ring-offset-1 text-sm sm:text-base"
+          style={{ height: rows === 1 ? '40px' : 'auto' }}
           disabled={isLoading}
         />
         {isLoading ? (
@@ -86,7 +86,7 @@ export default function MessageInput({
             type="button"
             size="icon"
             onClick={stop}
-            className="absolute right-1.5 top-1.5 h-8 w-8 rounded-full"
+            className="absolute right-1 sm:right-1.5 top-1 sm:top-1.5 h-8 w-8 rounded-full"
           >
             <Square className="h-4 w-4" />
             <span className="sr-only">Stop generating</span>
@@ -95,7 +95,7 @@ export default function MessageInput({
           <Button
             type="submit"
             size="icon"
-            className="absolute right-1.5 top-1.5 h-8 w-8 rounded-full"
+            className="absolute right-1 sm:right-1.5 top-1 sm:top-1.5 h-8 w-8 rounded-full"
             disabled={!input.trim()}
           >
             <ArrowRight className="h-4 w-4" />
