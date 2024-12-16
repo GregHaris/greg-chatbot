@@ -32,7 +32,7 @@ export const CodeBlock = ({ children, className }: CodeBlockProps) => {
   return (
     <div className="inline">
       {isInline ? (
-        <span className="bg-gray-300 text-cyan-800 p-1 text-sm rounded">
+        <span className="bg-gray-300 text-cyan-800 p-1 text-sm rounded break-words">
           {children}
         </span>
       ) : (
@@ -47,22 +47,23 @@ export const CodeBlock = ({ children, className }: CodeBlockProps) => {
               style={nightOwl}
               customStyle={{
                 lineHeight: '1.5',
-                fontSize: '1rem',
+                fontSize: '0.875rem',
                 borderRadius: '10px',
-                padding: '40px',
+                padding: '25px 10px',
+                whiteSpace: 'pre-wrap',
               }}
               showLineNumbers={language !== 'bash' && !!language}
               lineNumberStyle={{
                 borderRight: '1px solid #ccc',
-                paddingRight: '1em',
-                marginRight: '1em',
+                paddingRight: '0.5em',
+                marginRight: '0.5em',
                 color: '#999',
               }}
             >
               {codeText}
             </SyntaxHighlighter>
             <button
-              className="absolute top-2 right-2 bg-gray-700 text-white p-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              className="absolute top-2 right-2 bg-gray-700 text-white p-2 rounded opacity-100 transition-opacity duration-300"
               onClick={handleCopy}
               title={buttonText}
             >
