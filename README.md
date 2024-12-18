@@ -9,7 +9,7 @@ Greg's Chatbot is an AI-powered chatbot built with React, TypeScript, Node.js, T
 - **AI-Powered Conversations**: Utilizes Llama 3 AI model via Groq's AI for natural and intelligent interactions.
 - **Authentication**: Integrated with Auth0 for secure user authentication.
 - **Database Management**: Uses Prisma as the ORM for efficient database interactions with Postgresql.
-- **Responsive Design**: Built with Tailwind CSS and radix UI for a responsive and modern UI.
+- **Responsive Design**: Built with Tailwind CSS and Radix UI for a responsive and modern UI.
 - **Syntax Highlighting**: Supports code snippets with syntax highlighting using `react-syntax-highlighter`.
 - **Analytics**: Integrated with Vercel Analytics and Speed Insights for performance monitoring.
 
