@@ -9,7 +9,7 @@ Greg's Chatbot is an AI-powered chatbot built with React, TypeScript, Node.js, T
 - **AI-Powered Conversations**: Utilizes Llama 3 AI model via Groq's AI for natural and intelligent interactions.
 - **Authentication**: Integrated with Auth0 for secure user authentication.
 - **Database Management**: Uses Prisma as the ORM for efficient database interactions with Postgresql.
-- **Responsive Design**: Built with TailwindCSS and radix ui for a responsive and modern UI.
+- **Responsive Design**: Built with Tailwind CSS and radix UI for a responsive and modern UI.
 - **Syntax Highlighting**: Supports code snippets with syntax highlighting using `react-syntax-highlighter`.
 - **Analytics**: Integrated with Vercel Analytics and Speed Insights for performance monitoring.
 
@@ -43,11 +43,11 @@ To install Greg's Chatbot, follow these steps:
    pnpm install
    ```
 
-4. Set up your environment variables by creating a .env and .env.local file in the project root directory. Then go to [auth0.com](https://autho.com) to create an account and generate your Auth0 credentials.
+4. Set up your environment variables by creating .env and .env.local files in the project root directory. Then, go to [auth0.com](https://autho.com) to create an account and generate your Auth0 credentials.
 
-5. Install and set up your Postgresql data base.
+5. Install and set up your Postgresql database.
 
-6. Follow this [Vercel guide](https://vercel.com/guides/nextjs-prisma-postgres) to set up the Prisma ORM and connect it with your Postgres data base
+6. Follow this [Vercel guide](https://vercel.com/guides/nextjs-prisma-postgres) to set up the Prisma ORM and connect it with your Postgres database
 
 ## Usage
 
@@ -95,7 +95,7 @@ To install Greg's Chatbot, follow these steps:
 
 ## Contributing
 
-If you're interested in contributing to Greg's Chatbot, please feel free to open a pull request on GitHub.
+If you're interested in contributing to Greg's Chatbot, please open a pull request on GitHub.
 
 ## License
 
