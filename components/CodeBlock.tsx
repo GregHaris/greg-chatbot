@@ -26,7 +26,7 @@ export const CodeBlock = ({ children, className }: CodeBlockProps) => {
       (error) => console.error('Failed to copy code:', error),
     );
   };
-
+  
   const isInline = typeof children === 'string' && !children.includes('\n');
 
   return (
@@ -51,7 +51,7 @@ export const CodeBlock = ({ children, className }: CodeBlockProps) => {
                 lineHeight: '1.5',
                 fontSize: '0.875rem',
                 borderRadius: '10px',
-                padding: '30px 10px',
+                padding: '30px 25px',
               }}
               lineProps={{ style: { flexWrap: 'wrap' } }}
               showInlineLineNumbers={false}
