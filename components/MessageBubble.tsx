@@ -91,7 +91,7 @@ export const MessageBubble = ({
         <>
           {message.role === 'user' ? (
             <pre
-              className="document-font whitespace-pre-wrap pb-4"
+              className="document-font whitespace-pre-wrap pb-8"
               style={{ maxWidth: '50' }}
             >
               {message.content}
@@ -117,7 +117,7 @@ export const MessageBubble = ({
           <div
             className={`absolute bottom-1 ${
               message.role === 'user' ? 'left-1' : 'right-1'
-            } md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300`}
+            } md:group-hover:opacity-0 transition-opacity duration-300`}
           >
             <ActionButtons
               message={message}
