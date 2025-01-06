@@ -49,20 +49,29 @@ export default function Chat() {
     onFinish: async (message) => {
       if (user && user.sub) {
         try {
-          await fetch('api/save-interaction', {
+          const response = await fetch('/api/save-interaction', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              auth0Id: user.sub,
+              auth0Id: user.sub, // Include the user's Auth0 ID
               message: input,
               response: message.content,
             }),
           });
+
+          if (!response.ok) {
+            throw new Error('Failed to save interaction');
+          }
+
+          const data = await response.json();
+          console.log('Interaction saved:', data);
         } catch (error) {
           console.error('Failed to save interaction:', error);
         }
+      } else {
+        console.error('User not authenticated');
       }
     },
   });
@@ -99,12 +108,28 @@ export default function Chat() {
     router.push('/api/auth/logout');
   };
 
-  // Delete a message
+  // Delete a message and its corresponding response
   const handleDeleteMessage = useCallback(
     (messageId: string) => {
-      setMessages((prevMessages) =>
-        prevMessages.filter((msg) => msg.id !== messageId),
-      );
+      setMessages((prevMessages) => {
+        const messageIndex = prevMessages.findIndex(
+          (msg) => msg.id === messageId,
+        );
+        if (messageIndex !== -1) {
+          if (prevMessages[messageIndex].role === 'user') {
+            return prevMessages.filter(
+              (_, index) =>
+                index !== messageIndex && index !== messageIndex + 1,
+            );
+          } else if (prevMessages[messageIndex].role === 'assistant') {
+            return prevMessages.filter(
+              (_, index) =>
+                index !== messageIndex && index !== messageIndex - 1,
+            );
+          }
+        }
+        return prevMessages;
+      });
     },
     [setMessages],
   );
@@ -121,27 +146,31 @@ export default function Chat() {
     [setMessages],
   );
 
-  // Regenerate a message
+  // Regenerate a message and delete all subsequent messages
   const handleRegenerateMessage = useCallback(
     (messageId: string, newContent?: string) => {
-      const messageIndex = messages.findIndex((msg) => msg.id === messageId);
-      if (messageIndex !== -1 && messageIndex > 0) {
-        const userMessage = messages[messageIndex - 1];
-        if (userMessage && userMessage.role === 'user') {
-          setMessages((prevMessages) =>
-            prevMessages.filter(
-              (msg, index) => index < messageIndex - 1 || index > messageIndex,
-            ),
-          );
-          append({
-            role: 'user',
-            content: newContent || userMessage.content,
-            id: `${userMessage.id}-regenerate`,
-          });
+      setMessages((prevMessages) => {
+        const messageIndex = prevMessages.findIndex(
+          (msg) => msg.id === messageId,
+        );
+        if (messageIndex !== -1 && messageIndex > 0) {
+          const userMessage = prevMessages[messageIndex - 1];
+          if (userMessage && userMessage.role === 'user') {
+            const updatedMessages = prevMessages.filter(
+              (_, index) => index < messageIndex - 1,
+            );
+            append({
+              role: 'user',
+              content: newContent || userMessage.content,
+              id: `${userMessage.id}-regenerate`,
+            });
+            return updatedMessages;
+          }
         }
-      }
+        return prevMessages;
+      });
     },
-    [messages, append, setMessages],
+    [append, setMessages],
   );
 
   // Toggle mobile menu
