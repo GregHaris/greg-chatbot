@@ -57,7 +57,6 @@ export const CodeBlock = ({ children, className }: CodeBlockProps) => {
               showInlineLineNumbers={false}
               showLineNumbers={language !== 'bash' && !!language}
               lineNumberStyle={{
-                borderRight: '1px solid #ccc',
                 paddingRight: '0.5em',
                 marginRight: '0.5em',
                 color: '#999',
