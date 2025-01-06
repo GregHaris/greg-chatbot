@@ -102,16 +102,18 @@ export const MessageBubble = ({
               remarkPlugins={[remarkGfm]}
               components={{
                 p: ({ children }) => (
-                  <div style={{ maxWidth: '50' }}>{children}</div>
+                  <div style={{ maxWidth: '50' }}>{String(children)}</div>
                 ),
                 code({ children, className }) {
                   return (
-                    <CodeBlock className={className}>{children}</CodeBlock>
+                    <CodeBlock className={className || ''}>
+                      {String(children)}
+                    </CodeBlock>
                   );
                 },
               }}
             >
-              {message.content}
+              {String(message.content)}
             </Markdown>
           )}
           <div
