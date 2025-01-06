@@ -4,25 +4,24 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL")
 }
 
 model User {
-  id            String         @id @default(cuid())
-  auth0Id       String         @unique
-  email         String         @unique
-  name          String?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  interactions  Interaction[]
+  id        String    @id @default(cuid())
+  auth0Id   String    @unique
+  email     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  interactions Interaction[]
 }
 
 model Interaction {
-  id          String   @id @default(cuid())
-  userId      String
-  message     String   @db.Text
-  response    String   @db.Text
-  createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
+  id        String   @id @default(cuid())
+  userId    String
+  message   String
+  response  String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
-
